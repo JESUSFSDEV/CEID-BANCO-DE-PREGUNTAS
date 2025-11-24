@@ -1,0 +1,154 @@
+<div class="login-container bg-background">
+  <div class="login-wrapper">
+    <!-- Header con logo -->
+    <div class="login-header text-center mb-4">
+      <img src="logo.png" alt="CEID UNCP Logo" class="mb-2" width="180">
+      <h2 class="institution-name">Centro de Idiomas UNCP</h2>
+      <h5 class="text-subtitle">Sistema de Banco de Preguntas</h5>
+    </div>
+
+    <!-- Card de Login -->
+    <div class="login-card bg-white">
+      <div class="card-body p-4">
+        <!-- Selector de tipo de usuario -->
+        <div class="user-type-selector mb-4">
+          <h5 class="text-center mb-3">Selecciona tu tipo de acceso</h5>
+          <div class="row g-2">
+            <div class="col-4">
+              <input type="radio" class="btn-check" name="userType" id="administrativo" value="administrativo" (change)="selectUserType(3)" [checked]="login_user.t2_panel === 3">
+              <label class="btn btn-outline-primary w-100 d-flex flex-column align-items-center py-3" for="administrativo">
+                <i class="fas fa-user-tie fa-2x mb-2"></i>
+                <span class="small">Administrativo</span>
+              </label>
+            </div>
+            <div class="col-4">
+              <input type="radio" class="btn-check" name="userType" id="docente" value="docente" (change)="selectUserType(2)" [checked]="login_user.t2_panel === 2">
+              <label class="btn btn-outline-primary w-100 d-flex flex-column align-items-center py-3" for="docente">
+                <i class="fas fa-chalkboard-teacher fa-2x mb-2"></i>
+                <span class="small">Docente</span>
+              </label>
+            </div>
+            <div class="col-4">
+              <input type="radio" class="btn-check" name="userType" id="alumno" value="alumno" (change)="selectUserType(1)" [checked]="login_user.t2_panel === 1">
+              <label class="btn btn-outline-primary w-100 d-flex flex-column align-items-center py-3" for="alumno">
+                <i class="fas fa-user-graduate fa-2x mb-2"></i>
+                <span class="small">Alumno</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+        
+        <!-- Formulario de login -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+          <!-- Campo de email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">
+              <i class="fas fa-envelope me-2"></i>Correo Electrónico
+            </label>
+            <div class="input-group">
+              <span class="input-group-text bg-light">
+                <i class="fas fa-at text-muted"></i>
+              </span>
+              <input 
+                type="email" 
+                class="form-control border border-muted" 
+                id="email" 
+                formControlName="email"
+                [(ngModel)]="login_user.t1_email"
+                name="t1_email"
+                placeholder="usuario@uncp.edu.pe"
+                [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                required>
+              <div class="invalid-feedback" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                <small *ngIf="loginForm.get('email')?.errors?.['required']">El correo es requerido</small>
+                <small *ngIf="loginForm.get('email')?.errors?.['email']">Ingresa un correo válido</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Campo de contraseña -->
+          <div class="mb-4">
+            <label for="password" class="form-label">
+              <i class="fas fa-lock me-2"></i>Contraseña
+            </label>
+            <div class="input-group">
+              <span class="input-group-text bg-light">
+                <i class="fas fa-key text-muted"></i>
+              </span>
+              <input 
+                [type]="showPassword ? 'text' : 'password'" 
+                class="form-control border border-muted" 
+                id="password" 
+                formControlName="password"
+                [(ngModel)]="login_user.t1_password"
+                name="t1_password"
+                placeholder="Ingresa tu contraseña"
+                [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                required>
+              <button 
+                class="btn btn-outline-secondary" 
+                type="button" 
+                (click)="togglePassword()"
+                [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+                <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              </button>
+              <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                <small *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es requerida</small>
+                <small *ngIf="loginForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recordar sesión -->
+          <div class="mb-4 d-none">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="rememberMe" formControlName="rememberMe">
+              <label class="form-check-label text-muted small" for="rememberMe">
+                Recordar mi sesión
+              </label>
+            </div>
+          </div>
+
+          <!-- Botón de login -->
+          <div class="d-grid mb-3">
+            <button 
+              type="submit" 
+              class="btn btn-primary btn-lg bg-primary py-3" 
+              [disabled]="loginForm.invalid || isLoading">
+              <span *ngIf="!isLoading">
+                <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+              </span>
+              <span *ngIf="isLoading">
+                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Iniciando sesión...
+              </span>
+            </button>
+          </div>
+
+          <!-- Enlaces adicionales -->
+          <div class="text-center">
+            <a href="#" class="text-muted text-decoration-none small me-3" (click)="forgotPassword()">
+              <i class="fas fa-question-circle me-1"></i>¿Olvidaste tu contraseña?
+            </a>
+            <a href="#" class="text-muted text-decoration-none small" (click)="needHelp()">
+              <i class="fas fa-life-ring me-1"></i>¿Necesitas ayuda?
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer text-center mt-4">
+      <p class="text-muted small mb-1">
+        <i class="fas fa-university me-1"></i>
+        Universidad Nacional del Centro del Perú
+      </p>
+      <p class="text-muted small mb-0">
+        © {{currentYear}} Centro de Idiomas - Todos los derechos reservados
+      </p>
+    </div>
+  </div>
+</div>

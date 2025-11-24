@@ -1,0 +1,153 @@
+<div class="d-flex vh-100">
+    <!-- Sidebar -->
+    <nav class="sidebar text-white position-fixed position-lg-relative h-100 overflow-auto bg-background" 
+        [class.sidebar-collapsed]="menuMin"
+        id="sidebar">
+        
+        <!-- Header del Sidebar -->
+        <div class="p-2 pb-1 border-bottom border-light border-opacity-25">
+            <div class="text-center" routerLink="/admin" role="button">
+                <img src="logo.png" alt="UNCP Logo" class="img-fluid mb-0" style="max-height: 70px;">
+                <hr class="my-2" style="border-color: #b9cefd; border-width: 2px;">
+                <button *ngIf="!menuMin" type="button" class="btn w-100 py-2 text-white bg-primary">
+                    <p class="m-0 fs-7">Intranet</p>
+                    <h6 class="m-0">Administrador</h6>
+                </button>
+                <hr class="my-2" style="border-color: #b9cefd; border-width: 2px;">
+            </div>
+        </div>
+
+        <!-- Menu Items -->
+        <div class="sidebar-nav p-2 py-1">
+            <!-- Sección Comedor -->
+            <div class="mb-0">
+                <nav class="nav flex-column">
+                    <a routerLink="/admin" 
+                        class="nav-link sidebar-link d-flex align-items-center py-1 px-2 my-1 rounded text-body fw-500"
+                        [class.active]="menuActive==1"
+                        [class.bg-primary-light]="menuActive==1"
+                        [class.text-primary]="menuActive==1">
+                        <i class="fas fa-tachometer-alt me-2"></i>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+                    <a routerLink="personas" 
+                        class="nav-link sidebar-link d-flex align-items-center py-1 px-2 my-1 rounded text-body fw-500"
+                        [class.active]="menuActive==2"
+                        [class.bg-primary-light]="menuActive==2"
+                        [class.text-primary]="menuActive==2">
+                        <i class="fas fa-users me-2"></i>
+                        <span class="sidebar-text">Personas</span>
+                    </a>
+                    <a routerLink="roles" 
+                        class="nav-link sidebar-link d-flex align-items-center py-1 px-2 my-1 rounded text-body fw-500"
+                        [class.active]="menuActive==3"
+                        [class.bg-primary-light]="menuActive==3"
+                        [class.text-primary]="menuActive==3">
+                        <i class="fas fa-user-shield me-2"></i>
+                        <span class="sidebar-text">Roles</span>
+                    </a>
+                    <a routerLink="idiomas" 
+                        class="nav-link sidebar-link d-flex align-items-center py-1 px-2 my-1 rounded text-body fw-500"
+                        [class.active]="menuActive==4"
+                        [class.bg-primary-light]="menuActive==4"
+                        [class.text-primary]="menuActive==4">
+                        <i class="fas fa-language me-2"></i>
+                        <span class="sidebar-text">Idiomas</span>
+                    </a>
+                    <a routerLink="banco" 
+                        class="nav-link sidebar-link d-flex align-items-center py-1 px-2 my-1 rounded text-body fw-500"
+                        [class.active]="menuActive==5"
+                        [class.bg-primary-light]="menuActive==5"
+                        [class.text-primary]="menuActive==5">
+                        <i class="fas fa-book me-2"></i>
+                        <span class="sidebar-text">Banco de Preguntas</span>
+                    </a>
+                    <a routerLink="balotarios" 
+                        class="nav-link sidebar-link d-flex align-items-center py-1 px-2 my-1 rounded text-body fw-500"
+                        [class.active]="menuActive==6"
+                        [class.bg-primary-light]="menuActive==6"
+                        [class.text-primary]="menuActive==6">
+                        <i class="fas fa-list-alt me-2"></i>
+                        <span class="sidebar-text">Balotarios</span>
+                    </a>
+                    <a routerLink="tokens" 
+                        class="nav-link sidebar-link d-flex align-items-center py-1 px-2 my-1 rounded text-body fw-500"
+                        [class.active]="menuActive==7"
+                        [class.bg-primary-light]="menuActive==7"
+                        [class.text-primary]="menuActive==7">
+                        <i class="fas fa-key me-2"></i>
+                        <span class="sidebar-text">Tokens</span>
+                    </a>
+
+                </nav>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overlay para móvil -->
+    <div class="sidebar-overlay d-lg-none" 
+        [class.show]="!menuMin" 
+        (click)="toggleSidebar()">
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-fill d-flex flex-column main-content" id="main-content">
+        <!-- Header -->
+        <header class="bg-background text-white p-3 d-flex justify-content-between align-items-center">
+            <!-- Botón hamburguesa y título del sistema -->
+            <div class="d-flex align-items-center">
+                <button class="btn btn-outline-dark me-3" (click)="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <!-- Título del sistema - Responsivo -->
+                <div class="d-flex align-items-center text-title">
+                    <div>
+                        <h5 class="mb-0 fw-bold d-none d-lg-block">{{env.appName}}</h5>
+                        <h6 class="mb-0 fw-bold d-lg-none d-md-block">{{env.oficina}}</h6>
+                        <small class="text-body d-block d-none d-lg-block">{{env.oficina}}</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usuario y opciones -->
+            <div class="d-flex align-items-center">
+                <!-- Información adicional en pantallas grandes -->
+                <div class="text-end me-3 d-none d-xl-block text-title">
+                    <div class="small">Bienvenido,</div>
+                    <div class="fw-semibold">{{usuario.t1_nombres}} {{usuario.t1_apellidos}}</div>
+                </div>
+
+                <!-- Dropdown del usuario -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-dark text-title dropdown-toggle d-flex align-items-center" 
+                            type="button" 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false">
+                        <i class="fas fa-user-circle me-2"></i>
+                        <span class="d-inline">{{usuario.t1_email}}</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end py-0 overflow-hidden">
+                        <li>
+                            <h6 class="dropdown-header d-xl-none">
+                                <i class="fas fa-user me-2"></i>{{usuario.t1_nombres}}
+                            </h6>
+                        </li>
+                        <li><hr class="m-0"></li>
+                        <li>
+                            <button class="dropdown-item bg-danger text-white py-2" (click)="logout()">
+                                <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <main class="flex-fill p-0 overflow-auto">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+
+</div>

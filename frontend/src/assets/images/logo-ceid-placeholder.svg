@@ -1,0 +1,8 @@
+<!-- Archivo HTML temporalmente para mostrar el logo placeholder -->
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#3b5998"/>
+  <circle cx="100" cy="70" r="30" fill="white"/>
+  <rect x="70" y="110" width="60" height="40" fill="white"/>
+  <text x="100" y="170" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">CEID</text>
+  <text x="100" y="185" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">UNCP</text>
+</svg>

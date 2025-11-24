@@ -1,0 +1,125 @@
+<div class="p-1 py-0 w-100 bg-background">
+    <div class="inicio p-2 py-1">
+
+        <!-- Header Section -->
+        <div class="dashboard-header bg-primary">
+            <div class="header-content">
+                <h1 class="welcome-title">
+                Buen día, {{ user_login.t1_nombres + ' ' + user_login.t1_apellidos }}! 👋
+                </h1>
+                <p class="welcome-subtitle">Bienvenido al Sistema de Gestión de Banco de Preguntas UNCP</p>
+                
+                <div class="info-banner">
+                <span class="info-icon">💡</span>
+                <span class="info-text">Mantengamos altos estándares de calidad en nuestras preguntas.</span>
+                </div>
+            </div>
+            
+            <div class="header-date">
+                <span class="calendar-icon">📅</span>
+                <span class="date-text">{{ currentDate }}</span>
+                <br>
+                <span class="time-icon">🕐</span>
+                <span class="time-text">{{ currentTime }}</span>
+            </div>
+        </div>
+
+        <!-- Loading Section -->
+        <div class="loading-section" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p class="loading-text">Cargando estadísticas del sistema...</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="dashboard-content" *ngIf="!isLoading">
+        <!-- Quick Access Section -->
+        <div class="section-card quick-access-section">
+            <h2 class="section-title mb-3">
+            <span class="title-icon">🚀</span>
+            Acceso Rápido
+            </h2>
+            <hr class="">
+            <div class="quick-access-grid">
+            <button class="quick-btn bg-primary text-white" routerLink="/admin/banco">
+                <span class="btn-icon">➕</span>
+                Nueva Pregunta
+            </button>
+            <button class="quick-btn bg-success text-white" routerLink="/admin/balotarios">
+                <span class="btn-icon">⚙️</span>
+                Gestionar Balotarios
+            </button>
+            <button class="quick-btn bg-info text-white" routerLink="/admin/personas">
+                <span class="btn-icon">👥</span>
+                Gestionar Usuarios
+            </button>
+            <button class="quick-btn bg-warning text-white" routerLink="/admin/idiomas">
+                <span class="btn-icon">🌐</span>
+                Configurar Idiomas
+            </button>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="statistics-section">
+            <div class="stat-card stat-primary">
+            <div class="stat-icon">📝</div>
+            <div class="stat-content">
+                <h3 class="stat-number">{{ stats.totalPreguntas }}</h3>
+                <p class="stat-label">Total Preguntas</p>
+            </div>
+            </div>
+            
+            <div class="stat-card stat-success">
+            <div class="stat-icon">✅</div>
+            <div class="stat-content">
+                <h3 class="stat-number">{{ stats.preguntasActivas }}</h3>
+                <p class="stat-label">Idiomas</p>
+            </div>
+            </div>
+            
+            <div class="stat-card stat-warning">
+            <div class="stat-icon">📚</div>
+            <div class="stat-content">
+                <h3 class="stat-number">{{ stats.balotarios }}</h3>
+                <p class="stat-label">Balotarios</p>
+            </div>
+            </div>
+            
+            <div class="stat-card stat-info">
+            <div class="stat-icon">👤</div>
+            <div class="stat-content">
+                <h3 class="stat-number">{{ stats.usuarios }}</h3>
+                <p class="stat-label">Usuarios</p>
+            </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="section-card activity-section">
+            <h2 class="section-title mb-3">
+            <span class="title-icon">📊</span>
+            Actividad Reciente
+            </h2>
+            <hr>
+            <div class="activity-list">
+            <div class="activity-item" *ngFor="let activity of recentActivities">
+                <div class="activity-icon" [ngClass]="activity.type">
+                {{ activity.icon }}
+                </div>
+                <div class="activity-details">
+                <p class="activity-text">{{ activity.description }}</p>
+                <span class="activity-time">{{ activity.time }}</span>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+        <span class="footer-icon">&#169;</span>
+        <span class="footer-text">{{ env.appName }} - {{ env.oficina }}</span>
+        </footer>
+
+    </div>
+</div>

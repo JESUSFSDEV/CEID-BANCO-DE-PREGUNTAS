@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+
+/* Toastr Styles */
+@import 'ngx-toastr/toastr';
+
+/* Personalizar los estilos de toastr con colores del sistema */
+.toast-container {
+  z-index: 91050 !important;
+}
+
+.toast-success {
+  background-color: #00c850 !important; /* text-success */
+}
+
+.toast-error {
+  background-color: #ff0000 !important; /* text-danger */
+}
+
+.toast-info {
+  background-color: #155dfb !important; /* text-info */
+}
+
+.toast-warning {
+  background-color: #ff8308 !important; /* text-warning */
+}
+
+
+/* Estilos globales adicionales */
+/* Estilos globales adicionales */
+/* Estilos globales adicionales */
+
+.bg-primary{
+  background-color: #364f93 !important;
+}
+
+.bg-primary-light{
+  background-color: #dce5fc !important;
+}
+
+.bg-background{
+  background-color: #f2f4fd !important;
+}
+
+.bg-white{
+  background-color: #ffffff !important;
+}
+
+
+.text-title{ color: #13213d !important; }
+.text-subtitle{ color: #364f93 !important; }
+.text-info{ color: #155dfb !important; }
+.text-primary{ color: #155dfb !important; }
+.text-success{ color: #00c850 !important; }
+.text-warning{ color: #ff8308 !important; }
+.text-danger{ color: #ff0000 !important; }
+
+
+.fw-100 { font-weight: 100 !important; }
+.fw-200 { font-weight: 200 !important; }
+.fw-300 { font-weight: 300 !important; }
+.fw-400 { font-weight: 400 !important; }
+.fw-500 { font-weight: 500 !important; }
+.fw-600 { font-weight: 600 !important; }
+.fw-700 { font-weight: 700 !important; }
+.fw-800 { font-weight: 800 !important; }
+.fw-900 { font-weight: 900 !important; }

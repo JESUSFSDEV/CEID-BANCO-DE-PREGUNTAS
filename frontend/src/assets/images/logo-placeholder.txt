@@ -1,0 +1,9 @@
+Coloca aquí el logo institucional del CEID con el nombre: logo-ceid.png
+
+Especificaciones recomendadas:
+- Formato: PNG con transparencia
+- Tamaño: 200x200px mínimo (para buena calidad)
+- Fondo: Transparente
+- Estilo: Logo oficial de la institución
+
+El archivo debe llamarse: logo-ceid.png

@@ -1,0 +1,271 @@
+<div class="p-1 py-0 w-100 bg-background">
+    <div class="inicio p-2 py-1">
+
+        <!-- Header minimalista -->
+        <div class="uncp-header bg-primary text-white p-4 py-3 mb-3 d-none">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="mb-1 fw-light">
+                    <i class="fas fa-users me-2"></i>
+                    Administración de Tokens de Agentes de IA
+                    </h3>
+                </div>
+                <button class="btn btn-light uncp-btn" data-bs-toggle="modal" data-bs-target="#modalAdd" (click)="resetForm()">
+                    <i class="fas fa-plus me-1"></i>
+                    Nuevo Token de Agente de IA
+                </button>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center px-2 my-3">
+            <div class="ps-2" style="border-left: 4px solid #b9cefd;">
+                <h3 class="mb-1 fw-500 text-subtitle">
+                    Administración de Tokens de Agentes de IA
+                </h3>
+            </div>
+            <button class="btn btn-light bg-primary text-white uncp-btn" data-bs-toggle="modal" data-bs-target="#modalAdd" (click)="resetForm()">
+                <i class="fas fa-plus me-1"></i>
+                Nuevo Token de Agente de IA
+            </button>
+        </div>
+
+        <!-- Estadísticas rápidas -->
+        <div class="card border border-muted mt-4 mb-4">
+            <div class="card-body py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-chart-bar text-info fs-4 me-3"></i>
+                        <div>
+                            <h6 class="mb-0 text-subtitle fw-500">Total de Tokens de Agentes de IA</h6>
+                            <span class="text-muted">Registrados en el sistema</span>
+                        </div>
+                    </div>
+                    <span class="badge bg-primary fs-5 px-3 py-2">{{pages[0]?.rows || 0}}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles de búsqueda y filtros -->
+        <div class="row mx-0 mb-3 align-items-center">
+            <div class="col-md-6 px-1">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Buscar tokens..." 
+                        [(ngModel)]="searchTerm" (input)="paginar();">
+                </div>
+            </div>
+            <div class="col-md-6 px-1 text-md-end mt-2 mt-md-0">
+                <div class="d-flex align-items-center justify-content-md-end">
+                    <span class="me-2 small text-muted">Mostrar:</span>
+                    <select class="form-select form-select-sm w-auto" [(ngModel)]="pageSize" (change)="paginar();">
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="card uncp-card">
+            <div class="table-responsive">
+                <table class="table table-hover uncp-table mb-0">
+                    <thead class="bg-primary">
+                        <tr>
+                            <th style="min-width: 15px;">#</th>
+                            <th>Plataforma</th>
+                            <th>Token</th>
+                            <th class="text-center" style="width: 120px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loading -->
+                        <tr *ngIf="!ready">
+                            <td colspan="7" class="text-center py-4">
+                            <div class="spinner-border text-uncp" role="status"></div>
+                            <div class="mt-2">Cargando...</div>
+                            </td>
+                        </tr>
+                        <!-- Sin resultados -->
+                        <tr *ngIf="ready && usuarios.length === 0">
+                            <td colspan="7" class="text-center py-4 text-muted">
+                                No se encontraron tokens
+                            </td>
+                        </tr>
+                        <!-- Datos -->
+                        <tr *ngFor="let p of usuarios; let i = index">
+                            <td class="text-muted small">{{(pageActive-1)*pageSize+i+1}}</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-user-circle text-uncp me-2 fa-lg"></i>
+                                    <div>
+                                    <div class="fw-medium">{{p.t1_email}}</div>
+                                    <small class="text-muted d-md-none">{{p.t1_nombres}}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="d-none d-md-table-cell">{{p.t1_nombres}}</td>
+                            <td class="d-none d-md-table-cell">{{p.t1_apellidos}}</td>
+                            <td>
+                                
+                            </td>
+                            <td class="text-center">
+                                
+                            </td>
+                            <td class="text-center">
+                                <span class="badge" [ngClass]="{
+                                    'bg-success': p.t1_estado,
+                                    'bg-danger': !p.t1_estado
+                                }">
+                                    {{p.t1_estado ? 'Activo' : 'Inactivo'}}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-primary" (click)="edit(p)" title="Editar" data-bs-toggle="modal" data-bs-target="#modalAdd">
+                                    <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-outline-danger" (click)="eliminar(p)" title="Eliminar" data-bs-toggle="modal" data-bs-target="#modalEliminar">
+                                    <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Paginación -->
+        <div class="d-flex justify-content-between align-items-center mt-2" *ngIf="pages && pages.length > 0">
+            <div class="text-muted small">
+                Mostrando {{(pageActive-1)*pageSize + 1}} de {{pages[0]?.rows || 0}}
+            </div>
+            <nav>
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item" [ngClass]="{'disabled': pageActive === 1}">
+                    <a class="page-link" (click)="getData(1)" style="cursor:pointer;">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                    </li>
+                    <li class="page-item" [ngClass]="{'disabled': pageActive === 1}">
+                    <a class="page-link" (click)="getData(pageActive - 1)" style="cursor:pointer;">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    </li>
+                    <li *ngFor="let page of pages" class="page-item" 
+                        [ngClass]="{
+                        'active': pageActive == page.pagina, 
+                        'd-none': (page.pagina > (pageActive + 2)) || (page.pagina < (pageActive - 2))
+                        }">
+                    <a class="page-link" (click)="getData(page.pagina)" style="cursor:pointer;">
+                        {{page.pagina}}
+                    </a>
+                    </li>
+                    <li class="page-item" [ngClass]="{'disabled': pageActive === pages.length}">
+                    <a class="page-link" (click)="getData(pageActive + 1)" style="cursor:pointer;">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    </li>
+                    <li class="page-item" [ngClass]="{'disabled': pageActive === pages.length}">
+                    <a class="page-link" (click)="getData(pages.length)" style="cursor:pointer;">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- Modal Crear/Editar -->
+<div class="modal fade" id="modalAdd" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-top">
+        <div class="modal-content">
+            <div class="modal-header bg-uncp bg-primary text-white">
+                <h5 class="modal-title">
+                <i class="fas fa-user-edit me-2"></i>
+                {{ !usuario.t1_id ? 'Nuevo Token' : 'Editar Token' }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" (click)="resetForm()"></button>
+            </div>
+            
+            <form #proyectoForm="ngForm" (ngSubmit)="submit()" novalidate>
+                <div class="modal-body p-4">
+
+                    <!-- Plataforma -->
+                    <div class="mb-3">
+                        <label class="form-label">Plataforma <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Digite la plataforma aquí..."
+                            [(ngModel)]="usuario.t1_email" name="t1_email" required>
+                    </div>
+
+                    <!-- Token -->
+                    <div class="mb-3">
+                        <label class="form-label">Token <span class="text-danger">*</span></label>
+                        <textarea rows="4" type="text" class="form-control" placeholder="Digite el token aquí..."
+                            [(ngModel)]="usuario.t1_email" name="t1_email" required>
+                        </textarea>
+                    </div>
+
+              
+                    
+                    <!-- Info adicional -->
+                    <div *ngIf="usuario.t1_id" class="alert alert-light">
+                        <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        ID: {{usuario.t1_id}}
+                        </small>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm()" [disabled]="!btn">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!btn || !proyectoForm.form.valid">
+                        <span *ngIf="!btn" class="spinner-border spinner-border-sm me-1"></span>
+                        {{ !usuario.t1_id ? 'Crear' : 'Actualizar' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Eliminar -->
+<div class="modal fade" id="modalEliminar" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h6 class="modal-title">
+                <i class="fas fa-trash me-2"></i>
+                Confirmar Eliminación
+                </h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" (click)="resetForm();"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                <i class="fas fa-exclamation-triangle text-warning fa-2x mb-3"></i>
+                <p>¿Eliminar el usuario <strong>{{usuario.t1_email}}</strong>?</p>
+                <small class="text-muted">Esta acción no se puede deshacer.</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetForm();" [disabled]="!btn">
+                Cancelar
+                </button>
+                <button *ngIf="btn" type="button" class="btn btn-danger" (click)="eliminar({})">
+                Eliminar
+                </button>
+                <button *ngIf="!btn" type="button" class="btn btn-danger" disabled>
+                <span class="spinner-border spinner-border-sm me-1"></span>
+                Eliminando...
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
