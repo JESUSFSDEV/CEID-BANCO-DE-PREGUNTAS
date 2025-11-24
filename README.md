@@ -1,4 +1,4 @@
-# 📘 Banco de Preguntas – CEID (Centro de Idiomas UNCP)
+# 📘 Sistema de Banco de Preguntas – CEID (Centro de Idiomas UNCP)
 
 Sistema web para la **gestión, administración y aplicación de un banco de preguntas** desarrollado para el **Centro de Idiomas de la Universidad Nacional del Centro del Perú (CEID – UNCP)**.  
 Permite organizar preguntas por niveles, cursos, unidades, competencias y tipos, facilitando la creación de exámenes y evaluaciones automatizadas.
